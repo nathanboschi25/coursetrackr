@@ -1,0 +1,28 @@
+{% extends '_partials/dashboard_template.html' %}
+
+{% block title %}History{% endblock %}
+
+
+{% block content %}
+    <a class="btn btn-primary" href="{{ url_for('connected.dashboard') }}">Retourner au tableau de bord</a>
+
+    <h2>Historique des signatures</h2>
+    {% for element in signatures %}
+        <div class="card">
+            <h5 class="card-title">{{ element.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ element.date }}</h6>
+            <div class="card-body">
+                Signé le {{ element.date_signature }}, par {{ element.signataire }}<br>
+                <div class="card-body__signature">
+                    <img src="{{ element.signature_svg }}" alt="Signature" height="100px">
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% if signatures|length == 0 %}
+        <p>Aucune signature à afficher.</p>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

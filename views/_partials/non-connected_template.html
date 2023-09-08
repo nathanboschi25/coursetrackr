@@ -1,0 +1,56 @@
+<!-- Flask .html template -->
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% block meta %}
+        <meta name="description" content="Agenda et emargement">
+        <meta name="author" content="Nathan BOSCHI">
+    {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    {% block styles %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/template.css') }}">
+    {% endblock %}
+
+    {% block header_scripts %}
+
+    {% endblock %}
+</head>
+
+<body>
+
+{# flash messages #}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<main>
+    {% block content %}
+
+    {% endblock %}
+</main>
+
+<sript src="{{ url_for('static', filename='js/bootstrap/bootstrap.min.js') }}"></sript>
+
+{% block footer_scripts %}
+
+{% endblock %}
+</body>
+</html>

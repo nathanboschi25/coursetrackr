@@ -1,0 +1,56 @@
+    {% extends '_partials/dashboard_template.html' %}
+
+    {% block title %}Paramètres{% endblock %}
+
+    {% block content %}
+        <a class="btn btn-primary" href="{{ url_for('connected.dashboard') }}">Retourner au tableau de bord</a>
+        <br><br>
+        <h1>Paramètres</h1>
+        <form action="{{ url_for('connected.admin.add_teacher') }}" method="post">
+            <h3>Ajouter un professeur</h3>
+            <div class="form-outline mb-4" style="margin-left: 30px">
+                <label class="form-label" for="form2Example08">NOM PRENOM</label>
+                <input type="text" name="name" id="form2Example08"
+                       class="form-control" required/>
+            </div>
+            <button class="btn btn-outline-primary" type="submit" style="margin-left: 30px">Ajouter un professeur</button>
+        </form>
+        <br>
+        <hr>
+        <h3>Mon compte</h3>
+        <form action="{{ url_for('auth_security.update_user') }}" method="post">
+            <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example08">Prénom NOM</label>
+                <input type="text" name="name" id="form2Example08"
+                       class="form-control" value="{{ compte.name }}" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example18">Nom d'utilisateur</label>
+                <input type="text" name="username" id="form2Example18"
+                       class="form-control" value="{{ compte.username }}" disabled/>
+            </div>
+
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example38">Classe</label>
+                <select class="form-select" name="signature_list" id="form2Example38" required>
+                    {% for classe in listes %}
+                        <option value="{{ classe.list_id }}"
+                                {% if classe.list_id == compte.list_id %}selected{% endif %}>{{ classe.designation }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="pt-1 mb-4">
+                <button class="btn btn-outline-primary" type="submit">Valider les modifications</button>
+            </div>
+        </form>
+        <hr>
+
+        <p><a class="btn btn-outline-danger" href="{{ url_for('connected.get_events_from_ade') }}">Forcer la récuperation
+            EDT ADE</a></p>
+    {% endblock %}
+
+    {% block scripts %}
+    {% endblock %}

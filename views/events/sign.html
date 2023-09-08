@@ -1,0 +1,75 @@
+{% extends './_partials/dashboard_template.html' %}
+
+{% block title %}Demande de signature{% endblock %}
+
+
+{% block header_scripts %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap-select.min.css') }}">
+    <script src="{{ url_for('static', filename='js/signature_pad.umd.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form action="./{{ event.event_id }}" method="post">
+            <div class="event-details">
+                <input type="text" name="id" value="{{ event.event_id }}" hidden>
+                <div class="event__title">
+                    <h2>{{ event.title }}</h2>
+                </div>
+                <div class="event__date">
+                    <p>{{ event.start }} - {{ event.end }} | {{ event.date }}</p>
+                </div>
+                <div class="event__content">
+                    <p>{{ event.content }}</p>
+                </div>
+            </div>
+            <div class="signature_pad">
+                <select class="form-select" aria-label="Default select example" name="teacher" required>
+                    <option value="" selected>Selectionnez le signataire</option>
+                    {% for teacher in teachers %}
+                        <option value="{{ teacher.teacher_id }}">{{ teacher.teacher_name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="description">Votre signature ci-dessous</div>
+                <canvas id="signature-pad" class="signature-pad"
+                        style="border: solid 1px black;"></canvas>
+                <input type="text" name="signature" id="signature" hidden required>
+                <div class="signature-pad--footer">
+                    <div class="signature-pad__actions">
+                        <div>
+                            <button type="button" class="btn btn-outline-danger" data-action="clear">Effacer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <a href="{{ url_for('connected.dashboard') }}" class="btn btn-secondary">Annuler</a>
+                <button type="submit" class="btn btn-primary" id="submit">Valider</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block footer_scripts %}
+    <script>
+        const canvas = document.getElementById('signature-pad')
+        console.log(canvas);
+        const signaturePad = new SignaturePad(canvas, {
+            backgroundColor: 'rgb(255, 255, 255)'
+        });
+
+        const cancelButton = document.querySelector('[data-action=clear]');
+        cancelButton.addEventListener('click', function (event) {
+            signaturePad.clear();
+        });
+
+        const submitBtn = document.querySelector('#submit');
+        submitBtn.addEventListener('click', function (event) {
+            console.log(signaturePad._toSVG());
+            document.querySelector('#signature').value = signaturePad._toSVG();
+        });
+
+    </script>
+{% endblock %}
+

@@ -1,0 +1,68 @@
+body {
+    font-family:  'Montserrat', 'Noto Sans', sans-serif;
+}
+
+header {
+    padding: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
+}
+
+header a {
+    padding: 10px;
+    color: var(--bs-light);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+header .header-title {
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+main {
+    max-width: 320px;
+    margin: 0 20px;
+}
+
+main h2 {
+    padding-top: 30px;
+}
+
+.card {
+    margin: 20px;
+    padding: 15px;
+    -webkit-box-shadow: 2px 2px 20px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.8);
+}
+
+.card-body, .event__content {
+    padding: 0;
+    white-space: pre-line;
+}
+
+.signature_pad .form-select {
+    margin-bottom: 20px;
+}
+
+.signature-pad {
+    width: 100%;
+}
+
+.signature-pad__actions {
+    text-align: end;
+}
+
+.actions {
+    margin-top: 20px;
+    text-align: center;
+}
