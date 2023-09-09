@@ -24,6 +24,10 @@ def get_data(user_id, semaine_start, semaine_end):
                 'start': semaine_start,
                 'end': semaine_end,
                 'jours': get_jours(user_id, semaine_start, semaine_end)
+            },
+            'now': {
+                'date': datetime.now().strftime('%m/%d/%Y'),
+                'heure': datetime.now().time().isoformat(timespec='minutes')
             }
         }
 
@@ -58,10 +62,6 @@ def get_cours(user_id, jour):
                 'signature_svg': result['signature_svg'],
                 'signature_name': result['teacher_name'],
                 'signature_date': result['signature_datetime'],
-                'now': {
-                    'date': datetime.now().strftime('%m/%d/%Y'),
-                    'heure': datetime.now().time().isoformat(timespec='minutes')
-                }
             })
         return cours
 
