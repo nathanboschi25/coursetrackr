@@ -6,7 +6,7 @@ app = Flask(__name__, template_folder='views', static_folder='static')
 app.secret_key = 'une cle(token) : grain de sel(any random string)'
 
 
-locale.setlocale(locale.LC_ALL, 'french')
+locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
 
 @app.teardown_appcontext
