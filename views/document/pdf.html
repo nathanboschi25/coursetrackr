@@ -171,13 +171,13 @@
     <div class="emargement">
         <p class="semaine">Semaine du {{ donnees.semaine.start }} au {{ donnees.semaine.end }}</p>
         <table class="jours">
-            <tr>
+            <thead>
                 {% for jour in donnees.semaine.jours %}
                     <td class="jour jour__header">
                         <p>{{ jour.jour }}<br><b>{{ jour.date }}</b></p>
                     </td>
                 {% endfor %}
-            </tr>
+            </thead>
             <tbody>
             {% for jour in donnees.semaine.jours %}
                 {% if len(jour.cours) > 0 %}
@@ -207,6 +207,14 @@
                     </td>
                 {% endif %}
             {% endfor %}
+            </tbody>
+            <tfoot>
+            {% for jour in donnees.semaine.jours %}
+                <td class="jour jour__header">
+                    <p>{{ jour.jour }}<br><b>{{ jour.date }}</b></p>
+                </td>
+            {% endfor %}
+            </tfoot>
         </table>
     </div>
 </header>
