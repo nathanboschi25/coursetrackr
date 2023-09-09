@@ -23,14 +23,14 @@ def ask_generation():
     start = str(start).split(' ')[0]
     end = str(end).split(' ')[0]
 
-    pdf_options = {'encoding': 'UTF-8',
+    pdf_options = {'--encoding': 'UTF-8',
                    'margin-left': '3mm',
                    'margin-right': '3mm',
                    'margin-bottom': '3mm',
                    'margin-top': '3mm',
-                   'title': 'Fiche d\'emargement - Semaine du ' + start + ' au ' + end,
-                   'footer-right': '[page] / [topage]',
-                   'footer-center': 'Fiche d\'emargement - Semaine du ' + start + ' au ' + end + ' - Produit le ' + datetime.now().strftime('%d/%m/%Y - %H:%M:%S')
+                   '--title': 'Fiche d\'emargement - Semaine du ' + start + ' au ' + end,
+                   '--footer-right': '[page] / [topage]',
+                   '--footer-center': 'Fiche d\'émargement - Semaine du ' + start + ' au ' + end + ' - Produit le ' + datetime.now().strftime('%d/%m/%Y - %H:%M:%S')
                    }
 
     if request.form.get('export') == 'pdf':
