@@ -27,7 +27,8 @@ def ask_generation():
                    'margin-left': '3mm',
                    'margin-right': '3mm',
                    'margin-bottom': '3mm',
-                   'margin-top': '3mm'}
+                   'margin-top': '3mm',
+                   'title': ('Fiche d\'émargement - Semaine du ' + start + ' au ' + end)}
 
     if request.form.get('export') == 'pdf':
         html = render_template('document/pdf.html', len=len,
@@ -35,7 +36,8 @@ def ask_generation():
         pdf = pdfkit.from_string(html, False, options=pdf_options)
         response = make_response(pdf)
         response.headers['Content-Type'] = 'application/pdf'
-        response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
+        response.headers['Content-Disposition'] = 'inline; filename=fiche_emargement_' + session[
+            'name'] + '_' + start + '_' + end + '.pdf'
         return response
     else:
         return render_template('document/pdf.html', len=len,
