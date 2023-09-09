@@ -46,5 +46,5 @@ def ask_generation():
 def render_html():
     start = '2023-09-04'
     end = '2023-09-10'
-    return render_template('document/pdf.html', image=get_base64, len=len,
+    return render_template('document/pdf.html', len=len,
                            donnees=get_data(session['user_id'], start, end))

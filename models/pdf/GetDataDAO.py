@@ -53,7 +53,7 @@ def get_cours(user_id, jour):
             cours.append({
                 'start': result['start_datetime'].time().isoformat(timespec='minutes'),
                 'end': result['end_datetime'].time().isoformat(timespec='minutes'),
-                'title': result['title'][:20].split('(')[0],
+                'title': result['title'],
                 'teacher': extract_teacher(result['content']),
                 'signature_svg': result['signature_svg'],
                 'signature_name': result['teacher_name'],
