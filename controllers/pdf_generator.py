@@ -28,7 +28,7 @@ def ask_generation():
                    'margin-right': '3mm',
                    'margin-bottom': '3mm',
                    'margin-top': '3mm',
-                   'Title': 'Fiche d\'emargement - Semaine du ' + start + ' au ' + end,
+                   'title': 'Fiche d\'emargement - Semaine du ' + start + ' au ' + end,
                    }
 
     if request.form.get('export') == 'pdf':
