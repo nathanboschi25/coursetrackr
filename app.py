@@ -18,13 +18,15 @@ def close_connection(exception):
 
 # SECURITY MIDDLEWARE
 from controllers.auth_security import auth_security
-
 app.register_blueprint(auth_security)
 
 # CONNECTED PAGES
 from controllers.logged_pages import connected
-
 app.register_blueprint(connected, url_prefix='/connected')
+
+# ADE UPDATE
+from controllers.ade_update import ade_update
+app.register_blueprint(ade_update, url_prefix='/ade')
 
 
 @app.route('/routes')
@@ -36,6 +38,7 @@ def get_routes():
 @app.route('/')
 def index():
     return redirect(url_for('connected.dashboard'))
+
 
 
 if __name__ == '__main__':
