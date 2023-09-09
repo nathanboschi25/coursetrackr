@@ -57,7 +57,11 @@ def get_cours(user_id, jour):
                 'teacher': extract_teacher(result['content']),
                 'signature_svg': result['signature_svg'],
                 'signature_name': result['teacher_name'],
-                'signature_date': result['signature_datetime']
+                'signature_date': result['signature_datetime'],
+                'now': {
+                    'date': datetime.now().strftime('%m/%d/%Y'),
+                    'heure': datetime.now().time().isoformat(timespec='minutes')
+                }
             })
         return cours
 
