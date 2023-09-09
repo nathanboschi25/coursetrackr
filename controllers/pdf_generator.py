@@ -29,8 +29,8 @@ def ask_generation():
                    'margin-top': '3mm',
                    'encoding': 'UTF-8',
                    'title': 'Fiche d\'emargement - Semaine du ' + start + ' au ' + end,
-                   'footer-right': '[page] / [topage]',
-                   'footer-center': 'Fiche d\'émargement - Semaine du ' + start + ' au ' + end + ' - Produit le ' + datetime.now().strftime(
+                   '--footer-right': '[page] / [topage]',
+                   '--footer-center': 'Fiche d\'emargement - Semaine du ' + start + ' au ' + end + ' - Produit le ' + datetime.now().strftime(
                        '%d/%m/%Y - %H:%M:%S')
                    }
 
