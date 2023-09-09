@@ -18,7 +18,7 @@ def get_data(user_id, semaine_start, semaine_end):
             'annee_universitaire': result['annee_univ'],
             'etudiant': {
                 'name': result['name'],
-                'classe': result['designation']
+                'classe': result['designation'] + ' [' + result['annee_univ'] + '] ' if result['designation'] else 'Non défini'
             },
             'semaine': {
                 'start': semaine_start,
@@ -36,6 +36,30 @@ def get_user_list(user_id):
     with get_db().cursor() as cursor:
         cursor.execute('SELECT list_id FROM users WHERE user_id=%s', user_id)
         return cursor.fetchone()['list_id']
+
+def get_jours(user_id, semaine_start, semaine_end):
+    with get_db().cursor() as cursor:
+        cursor.execute('''
+                            SELECT DISTINCT
+                                DATE(start_datetime) AS date
+                            FROM signature_list sl
+                            JOIN events ev ON sl.list_id = ev.list_id
+                            WHERE
+                                sl.list_id = %s AND
+                                ev.start_datetime >= %s AND
+                                ev.end_datetime <= %s
+                            ORDER BY start_datetime
+                            ''', (get_user_list(user_id), semaine_start, semaine_end))
+        jours = []
+        for date in cursor.fetchall():
+            jour = date['date']
+            jours.append({
+                'jour': jour.strftime('%A'),
+                'date': jour.strftime('%d/%m/%Y'),
+                'cours': get_cours(user_id, jour)
+            })
+        return jours
+
 
 
 def get_cours(user_id, jour):
@@ -66,25 +90,3 @@ def get_cours(user_id, jour):
         return cours
 
 
-def get_jours(user_id, semaine_start, semaine_end):
-    with get_db().cursor() as cursor:
-        cursor.execute('''
-                            SELECT DISTINCT
-                                DATE(start_datetime) AS date
-                            FROM signature_list sl
-                            JOIN events ev ON sl.list_id = ev.list_id
-                            WHERE
-                                sl.list_id = %s AND
-                                ev.start_datetime >= %s AND
-                                ev.end_datetime <= %s
-                            ORDER BY start_datetime
-                            ''', (get_user_list(user_id), semaine_start, semaine_end))
-        jours = []
-        for date in cursor.fetchall():
-            jour = date['date']
-            jours.append({
-                'jour': jour.strftime('%A'),
-                'date': jour.strftime('%m/%d/%Y'),
-                'cours': get_cours(user_id, jour)
-            })
-        return jours
