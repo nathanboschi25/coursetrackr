@@ -30,8 +30,9 @@ header .header-title {
 }
 
 main {
-    max-width: 320px;
-    margin: 0 20px;
+    max-width: 350px;
+    margin: auto;
+    margin-top: 20px;
 }
 
 main h2 {
