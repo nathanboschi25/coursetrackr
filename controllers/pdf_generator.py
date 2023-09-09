@@ -29,6 +29,8 @@ def ask_generation():
                    'margin-bottom': '3mm',
                    'margin-top': '3mm',
                    'title': 'Fiche d\'emargement - Semaine du ' + start + ' au ' + end,
+                   'footer-right': '[page] / [topage]',
+                   'footer-center': 'Fiche d\'emargement - Semaine du ' + start + ' au ' + end + ' - Généré le ' + datetime.now().strftime('%d/%m/%Y, à %H:%M:%S') + 'par CourseTrackr, developpé avec <3 par @NathanBoschi'
                    }
 
     if request.form.get('export') == 'pdf':
