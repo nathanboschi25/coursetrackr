@@ -6,17 +6,13 @@ from controllers.db_connection import get_db
 def get_event(event_id):
     with get_db().cursor() as cursor:
         cursor.execute('''  SELECT
-                                event_id,
-                                DATE(start_datetime) AS date,
-                                TIME(start_datetime) AS start,
-                                TIME(end_datetime) AS end,
-                                title,
-                                content
+                                *
                             FROM events
                             WHERE event_id = %s; ''', event_id)
         event = cursor.fetchone()
-        event['start'] = event['start'].strftime('%H:%M')
-        event['end'] = event['end'].strftime('%H:%M')
+        event['start'] = event['start_datetime'].strftime('%H:%M')
+        event['end'] = event['end_datetime'].strftime('%H:%M')
+        event['date'] = event['start_datetime'].strftime('%d/%m/%Y')
         return event
 
 
