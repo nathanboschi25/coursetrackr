@@ -14,7 +14,10 @@ def get_event(event_id):
                                 content
                             FROM events
                             WHERE event_id = %s; ''', event_id)
-        return cursor.fetchone()
+        event = cursor.fetchone()
+        event['start'] = event['start'].strftime('%H:%M')
+        event['end'] = event['end'].strftime('%H:%M')
+        return event
 
 
 def sign_event(event_id, teacher_id, user_id, signature):
@@ -31,13 +34,17 @@ def to_sign_events(user_id):
         if list_id is None:
             return []
         else:
-            cursor.execute('''SELECT *,
-                              CONCAT(DATE(start_datetime), ' ', TIME(start_datetime), ' - ', TIME(end_datetime)) AS date
+            cursor.execute('''SELECT *
                               FROM events
                               LEFT JOIN signatures s ON events.event_id = s.event_id
                               WHERE start_datetime < NOW() AND s.sinature_id IS NULL AND list_id = %s
                               ORDER BY start_datetime DESC;''', list_id)
-            return cursor.fetchall()
+            events = cursor.fetchall()
+            for event in events:
+                event['start'] = event['start_datetime'].strftime('%H:%M')
+                event['end'] = event['end_datetime'].strftime('%H:%M')
+                event['date'] = event['start_datetime'].strftime('%d/%m/%Y')
+            return events
 
 
 def get_history(user_id):
