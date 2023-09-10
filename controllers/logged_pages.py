@@ -37,7 +37,7 @@ def dashboard():
 @connected.route('/dashboard/get_events_from_ade')
 def get_events_from_ade():
     AdeDAO.update_events_from_ade(session['signature_list'])
-    flash("Les évènements pour la liste n°" + session['signature_list'] + " ont été mis à jour")
+    flash("Les évènements pour la liste n°" + str(session['signature_list']) + " ont été mis à jour")
     return redirect(url_for('connected.dashboard'))
 
 
