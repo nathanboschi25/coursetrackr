@@ -1,7 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, g, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 
 from models.events import EventsDAO
-from models.users import UsersDAO
 from models.teachers import TeachersDAO
 
 events = Blueprint('events', __name__, template_folder='views')

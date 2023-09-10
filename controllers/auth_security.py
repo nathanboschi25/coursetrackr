@@ -14,6 +14,8 @@ auth_security = Blueprint('auth_security', __name__,
 
 @auth_security.route('/login')
 def auth_login():
+    if 'username' in session:
+        return redirect(url_for('connected.dashboard'))
     return render_template('auth/login.html')
 
 
@@ -35,6 +37,7 @@ def auth_login_post():
             session['username'] = user['username']
             session['user_id'] = user['user_id']
             session['name'] = user['name']
+            session['signature_list'] = user['list_id']
             return redirect(url_for('connected.dashboard'))
     else:
         print("login incorrect")
@@ -64,7 +67,8 @@ def auth_signup_post():
         # ajouter un nouveau user
         password = generate_password_hash(password, method='sha256')
 
-        mycursor.execute("INSERT INTO users(username, name, password, list_id) VALUE (%s, %s, %s, %s)", (username, name, password))
+        mycursor.execute("INSERT INTO users(username, name, password, list_id) VALUE (%s, %s, %s, %s)",
+                         (username, name, password, sign_list))
         get_db().commit()
 
         mycursor.execute("SELECT LAST_INSERT_ID() AS last_insert_id FROM users")
@@ -74,9 +78,11 @@ def auth_signup_post():
         session.pop('username', None)
         session.pop('name', None)
         session.pop('user_id', None)
+        session.pop('signature_list', None)
         session['username'] = username
         session['name'] = name
         session['user_id'] = user_id
+        session['signature_list'] = sign_list
 
         return redirect(url_for('connected.dashboard'))
 
@@ -88,10 +94,12 @@ def auth_logout():
     session.pop('user_id', None)
     return redirect(url_for('auth_security.auth_login'))
 
+
 @auth_security.route('/user/edit', methods=['POST'])
 def update_user():
     with get_db().cursor() as cursor:
-        cursor.execute('UPDATE users SET name=%s, list_id=%s WHERE user_id=%s', (request.form.get('name'), request.form.get('signature_list'), session['user_id']))
+        cursor.execute('UPDATE users SET name=%s, list_id=%s WHERE user_id=%s',
+                       (request.form.get('name'), request.form.get('signature_list'), session['user_id']))
         session['name'] = request.form.get('name')
         get_db().commit()
     return redirect(url_for('connected.settings'))

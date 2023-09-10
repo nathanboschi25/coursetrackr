@@ -1,4 +1,4 @@
-from datetime import datetime
+from flask import session
 
 from controllers.db_connection import get_db
 
@@ -25,8 +25,7 @@ def sign_event(event_id, teacher_id, user_id, signature):
 
 def to_sign_events(user_id):
     with get_db().cursor() as cursor:
-        cursor.execute('''SELECT list_id FROM users WHERE user_id = %s;''', user_id)
-        list_id = cursor.fetchone()['list_id']
+        list_id = session['signature_list']
         if list_id is None:
             return []
         else:
@@ -43,6 +42,7 @@ def to_sign_events(user_id):
             return events
 
 
+# TODO : refactor and light this function
 def get_history(user_id):
     cursor = get_db().cursor()
     cursor.execute(''' SELECT *, 

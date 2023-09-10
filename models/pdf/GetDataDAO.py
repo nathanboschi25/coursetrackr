@@ -1,10 +1,10 @@
 from datetime import datetime
 
 from controllers.db_connection import get_db
-from models.teachers.TeachersDAO import get_teachers_names, extract_teacher
+from models.teachers.TeachersDAO import extract_teacher
 
 
-def get_data(user_id, semaine_start, semaine_end):
+def get_data(user_id, list_id, semaine_start, semaine_end):
     with get_db().cursor() as cursor:
         cursor.execute('''      SELECT 
                                     signature_list.annee_univ,
@@ -23,7 +23,7 @@ def get_data(user_id, semaine_start, semaine_end):
             'semaine': {
                 'start': semaine_start,
                 'end': semaine_end,
-                'jours': get_jours(user_id, semaine_start, semaine_end)
+                'jours': get_jours(list_id, semaine_start, semaine_end)
             },
             'now': {
                 'date': datetime.now().strftime('%m/%d/%Y'),
@@ -37,7 +37,8 @@ def get_user_list(user_id):
         cursor.execute('SELECT list_id FROM users WHERE user_id=%s', user_id)
         return cursor.fetchone()['list_id']
 
-def get_jours(user_id, semaine_start, semaine_end):
+
+def get_jours(list_id, semaine_start, semaine_end):
     with get_db().cursor() as cursor:
         cursor.execute('''
                             SELECT DISTINCT
@@ -49,7 +50,7 @@ def get_jours(user_id, semaine_start, semaine_end):
                                 ev.start_datetime >= %s AND
                                 ev.end_datetime <= %s
                             ORDER BY start_datetime
-                            ''', (get_user_list(user_id), semaine_start, semaine_end))
+                            ''', (list_id, semaine_start, semaine_end))
         jours = []
         for date in cursor.fetchall():
             jour = date['date']

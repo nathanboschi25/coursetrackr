@@ -1,9 +1,9 @@
-import urllib.request
-from ics import Calendar
+from datetime import datetime
+
 import requests
+from ics import Calendar
 
 from controllers.db_connection import get_db
-from datetime import datetime
 
 
 def get_ade_events(list_id):

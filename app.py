@@ -1,6 +1,6 @@
 import locale
 
-from flask import Flask, render_template, request, redirect, g, session, url_for
+from flask import Flask, redirect, g, url_for
 
 app = Flask(__name__, template_folder='views', static_folder='static')
 app.secret_key = 'une cle(token) : grain de sel(any random string)'

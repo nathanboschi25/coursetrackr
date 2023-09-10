@@ -1,8 +1,7 @@
-import base64
 from datetime import datetime, timedelta
 
-from flask import render_template, url_for, redirect, request, flash, session, send_file, Blueprint, make_response
 import pdfkit
+from flask import render_template, request, session, Blueprint, make_response
 
 from models.pdf.GetDataDAO import get_data
 
@@ -32,7 +31,7 @@ def ask_generation():
 
     if request.form.get('export') == 'pdf':
         html = render_template('document/pdf.html', len=len,
-                               donnees=get_data(session['user_id'], start, end))
+                               donnees=get_data(session['user_id'], session['signature_list'], start, end))
         pdf = pdfkit.from_string(html, False, options=pdf_options)
         response = make_response(pdf)
         response.headers['Content-Type'] = 'application/pdf'
@@ -41,7 +40,7 @@ def ask_generation():
         return response
     else:
         return render_template('document/pdf.html', len=len,
-                               donnees=get_data(session['user_id'], start, end))
+                               donnees=get_data(session['user_id'], session['signature_list'], start, end))
 
 
 @generate_document.route('/html')
@@ -49,4 +48,4 @@ def render_html():
     start = '2023-09-04'
     end = '2023-09-10'
     return render_template('document/pdf.html', len=len,
-                           donnees=get_data(session['user_id'], start, end))
+                           donnees=get_data(session['user_id'], session['signature_list'], start, end))

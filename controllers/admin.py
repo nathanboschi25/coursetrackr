@@ -1,5 +1,5 @@
 from flask import Blueprint, request, flash, redirect, url_for
-from controllers.db_connection import get_db
+
 from models.teachers import TeachersDAO
 
 admin = Blueprint('admin', __name__, template_folder='views')
