@@ -24,6 +24,7 @@ CREATE TABLE events
     content        VARCHAR(200),
     uid_ade        VARCHAR(50) NOT NULL,
     list_id        INT         NOT NULL,
+    hidden         BOOLEAN,
     CONSTRAINT PK_events PRIMARY KEY (event_id),
     CONSTRAINT FK_events_signature_list FOREIGN KEY (list_id) REFERENCES signature_list (list_id)
 );

@@ -30,13 +30,13 @@ def to_sign_events(session, date=None):
             if date is not None:
                 cursor.execute('''SELECT *
                                 FROM events
-                                WHERE list_id = %s AND DATE(start_datetime) = %s
+                                WHERE list_id = %s AND DATE(start_datetime) = %s AND (hidden = FALSE OR hidden IS NULL)
                                 ORDER BY start_datetime DESC;''', (list_id, date))
             else:
                 cursor.execute('''SELECT *
                               FROM events
                               LEFT JOIN signatures s ON events.event_id = s.event_id AND s.user_id = %s
-                              WHERE list_id = %s AND start_datetime < NOW() AND s.signature_id IS NULL 
+                              WHERE list_id = %s AND start_datetime < NOW() AND s.signature_id IS NULL AND (hidden = FALSE OR hidden IS NULL)
                               ORDER BY start_datetime DESC;''', (session['user_id'], list_id))
 
             events = cursor.fetchall()
@@ -89,6 +89,5 @@ def sign_many(event_id, teacher_id, students, signature):
 
 def del_event(id):
     with get_db().cursor() as cursor:
-        cursor.execute('''  DELETE FROM events
-                        WHERE event_id = %s; ''', id)
+        cursor.execute('''  UPDATE events SET hidden=TRUE WHERE event_id = %s; ''', id)
         get_db().commit()
