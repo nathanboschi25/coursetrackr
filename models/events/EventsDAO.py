@@ -51,8 +51,8 @@ def to_sign_events(session, date=None):
 def get_history(user_id):
     cursor = get_db().cursor()
     cursor.execute(''' SELECT *, 
-                              CONCAT(DATE(start_datetime), ' ', ADDTIME(TIME(start_datetime), '02:00:00'), ' - ', ADDTIME(TIME(end_datetime), '02:00:00')) AS date,
-                              CONCAT(DATE(signature_datetime), ' à ', ADDTIME(TIME(signature_datetime), '02:00:00')) AS date_signature,
+                              CONCAT(DATE(start_datetime), ' ', TIME(start_datetime), ' - ', TIME(end_datetime)) AS date,
+                              CONCAT(DATE(signature_datetime), ' à ', TIME(signature_datetime)) AS date_signature,
                               t.teacher_name AS signataire
                        FROM events
                        LEFT JOIN signatures s ON events.event_id = s.event_id

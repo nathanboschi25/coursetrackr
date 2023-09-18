@@ -28,23 +28,22 @@
 
 <body>
 
-{# flash messages #}
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <div class="container">
-            {% for message in messages %}
-                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endwith %}
-
 <main>
     {% block content %}
 
     {% endblock %}
+    {# flash messages #}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="container">
+                {% for message in messages %}
+                    <div class="alert alert-error alert-dismissible fade show" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 </main>
 
 <sript src="{{ url_for('static', filename='js/bootstrap/bootstrap.min.js') }}"></sript>
