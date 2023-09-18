@@ -38,7 +38,7 @@ CREATE TABLE teachers
 CREATE TABLE users
 (
     user_id  INT AUTO_INCREMENT,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(200) NOT NULL,
     name     VARCHAR(50) NOT NULL,
     username VARCHAR(50) NOT NULL,
     list_id  INT,
@@ -51,7 +51,7 @@ CREATE TABLE signatures
     signature_id       INT AUTO_INCREMENT,
     signature_svg      TEXT,
     signature_datetime DATETIME NOT NULL,
-    teacher_id         INT      NOT NULL,
+    teacher_id INT,
     event_id           INT      NOT NULL,
     user_id            INT      NOT NULL,
     CONSTRAINT PK_signatures PRIMARY KEY (signature_id),

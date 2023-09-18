@@ -22,6 +22,8 @@ def before_request():
             session.clear()
             return redirect(url_for('auth_security.auth_login'))
         session.clear()
+        if user['username'] == 'nboschi':
+            session['is_admin'] = True
         session['user_id'] = user['user_id']
         session['name'] = user['name']
         session['username'] = user['username']
@@ -30,7 +32,7 @@ def before_request():
 
 @connected.route('/dashboard')
 def dashboard():
-    a_signer = EventsDAO.to_sign_events(session['user_id'])
+    a_signer = EventsDAO.to_sign_events(session)
     return render_template('dashboard/index.html', user=session, a_signer=a_signer, get_prof=extract_teacher)
 
 

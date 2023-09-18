@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from controllers.db_connection import get_db
 from models.signature_list import ListeDAO
+from models.teachers import TeachersDAO
 
 auth_security = Blueprint('auth_security', __name__,
                           template_folder='templates')
@@ -44,6 +45,34 @@ def auth_login_post():
         flash(u'Vérifier votre login et essayer encore.', 'alert-warning')
         return redirect(url_for('auth_security.auth_login'))
 
+
+@auth_security.route('/teachers/login')
+def teachers_login():
+    return render_template('auth/teachers_login.html', teachers=TeachersDAO.get_teachers(),
+                           listes=ListeDAO.get_listes())
+
+
+@auth_security.route('/teachers/login', methods=['POST'])
+def teachers_login_post():
+    with get_db().cursor() as mycursor:
+        teacher_id = request.form.get('teacher')
+        list = request.form.get('list')
+
+        mycursor.execute("SELECT * FROM teachers WHERE teacher_id=%s", teacher_id)
+
+        teacher = mycursor.fetchone()
+
+        if teacher is None:
+            flash(u'', 'alert-warning')
+            return redirect(url_for('auth_security.auth_login'))
+
+        session.clear()
+
+        session['teacher_id'] = teacher['teacher_id']
+        session['signature_list'] = list
+        session['teacher_name'] = teacher['teacher_name']
+
+        return redirect(url_for('teachers.dashboard'))
 
 @auth_security.route('/signup')
 def auth_signup():
@@ -89,9 +118,7 @@ def auth_signup_post():
 
 @auth_security.route('/logout')
 def auth_logout():
-    session.pop('username', None)
-    session.pop('name', None)
-    session.pop('user_id', None)
+    session.clear()
     return redirect(url_for('auth_security.auth_login'))
 
 

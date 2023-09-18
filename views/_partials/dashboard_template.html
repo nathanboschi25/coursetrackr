@@ -29,19 +29,6 @@
 <body>
 {% include '_partials/_nav.html' %}
 
-{# flash messages #}
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <div class="container">
-            {% for message in messages %}
-                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endwith %}
-
 <main>
     {% block content %}
 

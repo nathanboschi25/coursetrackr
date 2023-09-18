@@ -2,9 +2,22 @@
 <header>
     <span class="header-title">CourseTrackr</span>
     <div class="header-actions">
-{#        <a class="material-symbols-outlined" href="">edit_document</a>#}
-        <a class="material-symbols-outlined" href="{{ url_for('connected.generate_document.choose_generation') }}">receipt_long</a>
-        <a class="material-symbols-outlined" href="{{ url_for('connected.settings') }}">settings</a>
+        {#        <a class="material-symbols-outlined" href="">edit_document</a>#}
+        <a class="material-symbols-outlined not-in-teachers"
+           href="{{ url_for('connected.generate_document.choose_generation') }}">receipt_long</a>
+        <a class="material-symbols-outlined not-in-teachers" href="{{ url_for('connected.settings') }}">settings</a>
         <a class="material-symbols-outlined" href="{{ url_for('auth_security.auth_logout') }}">logout</a>
     </div>
+    {# flash messages #}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="container">
+                {% for message in messages %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 </header>

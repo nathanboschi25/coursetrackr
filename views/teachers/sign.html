@@ -1,0 +1,91 @@
+{% extends './_partials/dashboard_template.html' %}
+
+{% block title %}Demande de signature{% endblock %}
+
+{% block styles %}
+    <style>
+        .not-in-teachers {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block header_scripts %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap-select.min.css') }}">
+    <script src="{{ url_for('static', filename='js/signature_pad.umd.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <form action="./{{ event.event_id }}" method="post">
+        <div class="container">
+            <div class="event-details">
+                <input type="text" name="id" value="{{ event.event_id }}" hidden>
+                <div class="event__title">
+                    <h2>{{ event.title }}</h2>
+                </div>
+                <div class="event__date">
+                    <p>Le {{ event.date }}, de {{ event.start }} à {{ event.end }}</p>
+                </div>
+                <div class="event__content">
+                    <p>{{ event.content }}</p>
+                </div>
+            </div>
+            <h3>Eleves présents</h3>
+            <div class="students">
+                {% for student in students %}
+                    <div class="student">
+                        <input type="checkbox" name="students" value="{{ student.user_id }}"
+                               id="{{ student.user_id }}">
+                        <label for="{{ student.user_id }}">{{ student.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            <hr>
+            <div class="signature_pad">
+                <select class="form-select" aria-label="Default select example" name="teacher" required disabled>
+                    <option value="{{ user.teacher_id }}" selected>{{ user.teacher_name }}</option>
+                </select>
+                <div class="description">Signature de l'enseignant ci-dessous :</div>
+                <canvas id="signature-pad" class="signature-pad"
+                        style="border: solid 1px black; "></canvas>
+                <input type="text" name="signature" id="signature" hidden required>
+                <div class="signature-pad--footer">
+                    <div class="signature-pad__actions">
+                        <div>
+                            <button type="button" class="btn btn-outline-danger" data-action="clear">Effacer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <a href="{{ url_for('teachers.dashboard') }}" class="btn btn-secondary">Annuler</a>
+                <button type="submit" class="btn btn-primary" id="submit">Valider</button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block footer_scripts %}
+    <script>
+        const canvas = document.getElementById('signature-pad')
+        console.log(canvas);
+        const signaturePad = new SignaturePad(canvas, {
+            backgroundColor: 'rgb(255, 255, 255)'
+        });
+
+        const cancelButton = document.querySelector('[data-action=clear]');
+        cancelButton.addEventListener('click', function (event) {
+            signaturePad.clear();
+        });
+
+        const submitBtn = document.querySelector('#submit');
+        submitBtn.addEventListener('click', function (event) {
+            console.log(signaturePad._toSVG());
+            document.querySelector('#signature').value = signaturePad._toSVG();
+        });
+
+    </script>
+{% endblock %}
+

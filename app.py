@@ -24,6 +24,11 @@ app.register_blueprint(auth_security)
 from controllers.logged_pages import connected
 app.register_blueprint(connected, url_prefix='/connected')
 
+# TEACHER PAGES
+from controllers.teacher_pages import teachers
+
+app.register_blueprint(teachers, url_prefix='/teachers')
+
 # ADE UPDATE
 from controllers.ade_update import ade_update
 app.register_blueprint(ade_update, url_prefix='/ade')

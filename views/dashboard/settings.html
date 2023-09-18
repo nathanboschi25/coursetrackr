@@ -6,6 +6,7 @@
         <a class="btn btn-primary" href="{{ url_for('connected.dashboard') }}">Retourner au tableau de bord</a>
         <br><br>
         <h1>Paramètres</h1>
+        {% if session['is_admin'] %}
         <form action="{{ url_for('connected.admin.add_teacher') }}" method="post">
             <h3>Ajouter un professeur</h3>
             <div class="form-outline mb-4" style="margin-left: 30px">
@@ -15,6 +16,7 @@
             </div>
             <button class="btn btn-outline-primary" type="submit" style="margin-left: 30px">Ajouter un professeur</button>
         </form>
+        {% endif %}
         <br>
         <hr>
         <h3>Mon compte</h3>

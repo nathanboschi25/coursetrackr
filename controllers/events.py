@@ -6,7 +6,7 @@ from models.teachers import TeachersDAO
 events = Blueprint('events', __name__, template_folder='views')
 
 
-@events.route('/')
+@events.route('/history')
 def history():
     return render_template('events/history.html', signatures=EventsDAO.get_history(session['user_id']))
 
@@ -30,3 +30,17 @@ def sign(id):
                                     request.form['signature'])
         flash('Record was successfully added')
         return redirect(url_for('connected.dashboard'))
+
+
+@events.route('/abs/<int:id>', methods=['GET'])
+def abs(id):
+    EventsDAO.abs_event(id, session['user_id'])
+    flash('Absence enregistrée', 'success')
+    return redirect(url_for('connected.dashboard'))
+
+
+@events.route('/del_sign/<int:id>', methods=['GET'])
+def del_sign(id):
+    EventsDAO.del_sign(id)
+    flash('Signature supprimée', 'success')
+    return redirect(url_for('connected.dashboard'))

@@ -12,9 +12,15 @@
             <h5 class="card-title">{{ element.title }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{ element.date }}</h6>
             <div class="card-body">
-                Signé le {{ element.date_signature }}, par {{ element.signataire }}<br>
+                Le {{ element.date_signature }}{% if element.signataire %}, par {{ element.signataire }}{% endif %}<br>
                 <div class="card-body__signature">
-                    <img src="{{ element.signature_svg }}" alt="Signature" height="100px">
+                    {% if element.signature_svg == 'ABSENT' %}
+                        <p>Déclaré Absent</p>
+                    {% else %}
+                        <img src="{{ element.signature_svg }}" alt="Signature" height="100px">
+                    {% endif %}
+                    <a href="{{ url_for('connected.events.del_sign', id=element.signature_id) }}"
+                       class="btn btn-secondary">Supprimer la signature</a>
                 </div>
             </div>
         </div>

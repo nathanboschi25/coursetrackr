@@ -12,13 +12,17 @@
     {% for element in a_signer %}
         <div class="card">
             <h5 class="card-title">{{ element.title }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Le {{ element.date }}, de {{ element.start }} à {{ element.end }}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Le {{ element.date }}, de {{ element.start }}
+                à {{ element.end }}</h6>
             <div class="card-body">
                 {{ get_prof(element.content) }}
             </div>
             <div class="card-actions">
-{#                <a href="events/actions/{{ element.event_id }}" class="btn btn-secondary">Actions</a>#}
-                <a href="events/sign/{{ element.event_id }}" class="btn btn-primary">Signer</a>
+                {% if session['is_admin'] %}
+                    <a href="{{ url_for('connected.dashboard') }}" class="btn btn-danger material-symbols-outlined">delete</a>{% endif %}
+                <a href="{{ url_for('connected.events.abs', id=element.event_id) }}"
+                   class="btn btn-secondary">Absent</a>
+                <a href="{{ url_for('connected.events.sign', id=element.event_id) }}" class="btn btn-primary">Signer</a>
             </div>
         </div>
     {% endfor %}

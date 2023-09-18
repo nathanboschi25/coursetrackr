@@ -1,0 +1,42 @@
+{% extends '_partials/dashboard_template.html' %}
+
+{% block title %}Tableau de bord - Enseignant{% endblock %}
+
+{% block styles %}
+    <style>
+        .not-in-teachers {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <p>Bienvenue sur votre tableau de bord, <br>{{ user.teacher_name }} !</p>
+
+    <h2>Selectionner le jour</h2>
+    <form method="get">
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" class="form-control" id="date" name="date" value="{{ date }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Changer de date</button>
+    </form>
+
+    <h2>{{ date }}</h2>
+    {% for element in cours %}
+        <div class="card">
+            <h5 class="card-title">{{ element.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Le {{ element.date }}, de {{ element.start }}
+                à {{ element.end }}</h6>
+            <div class="card-actions">
+                <a href="{{ url_for('teachers.sign', id=element.event_id) }}" class="btn btn-primary">Ouvrir</a>
+            </div>
+        </div>
+    {% endfor %}
+    {% if cours|length == 0 %}
+        <p>There are no events to sign.</p>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

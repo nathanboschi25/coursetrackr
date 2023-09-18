@@ -23,7 +23,7 @@ def get_data(user_id, list_id, semaine_start, semaine_end):
             'semaine': {
                 'start': semaine_start,
                 'end': semaine_end,
-                'jours': get_jours(list_id, semaine_start, semaine_end)
+                'jours': get_jours(list_id, semaine_start, semaine_end, user_id)
             },
             'now': {
                 'date': datetime.now().strftime('%m/%d/%Y'),
@@ -38,7 +38,7 @@ def get_user_list(user_id):
         return cursor.fetchone()['list_id']
 
 
-def get_jours(list_id, semaine_start, semaine_end):
+def get_jours(list_id, semaine_start, semaine_end, user_id):
     with get_db().cursor() as cursor:
         cursor.execute('''
                             SELECT DISTINCT
