@@ -36,7 +36,7 @@ def to_sign_events(session, date=None):
                 cursor.execute('''SELECT *
                               FROM events
                               LEFT JOIN signatures s ON events.event_id = s.event_id AND s.user_id = %s
-                              WHERE start_datetime < NOW() AND s.signature_id IS NULL AND list_id = %s
+                              WHERE list_id = %s AND start_datetime < NOW() AND s.signature_id IS NULL 
                               ORDER BY start_datetime DESC;''', (session['user_id'], list_id))
 
             events = cursor.fetchall()

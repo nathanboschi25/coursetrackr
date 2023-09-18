@@ -42,6 +42,12 @@ def get_events_from_ade():
     flash("Les évènements pour la liste n°" + str(session['signature_list']) + " ont été mis à jour")
     return redirect(url_for('connected.dashboard'))
 
+@connected.route('/dashboard/get_events_from_ade/force')
+def get_events_from_ade_forced():
+    AdeDAO.update_events_from_ade(session['signature_list'], force=True)
+    flash("Les évènements pour la liste n°" + str(session['signature_list']) + " ont été mis à jour")
+    return redirect(url_for('connected.dashboard'))
+
 
 @connected.route('/settings')
 def settings():
