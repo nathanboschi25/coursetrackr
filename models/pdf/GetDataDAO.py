@@ -73,7 +73,7 @@ def get_cours(user_id, jour):
                         FROM events ev
                         LEFT JOIN signatures s ON ev.event_id = s.event_id
                         LEFT JOIN teachers t ON t.teacher_id = s.teacher_id
-                        WHERE DATE(start_datetime) = %s AND ev.list_id = %s
+                        WHERE DATE(start_datetime) = %s AND ev.list_id = %s AND (hidden = FALSE OR hidden IS NULL)
                         ORDER BY start_datetime; 
                         ''', (jour, get_user_list(user_id)))
         results = cursor.fetchall()
