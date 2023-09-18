@@ -19,7 +19,7 @@
             </div>
             <div class="card-actions">
                 {% if session['is_admin'] %}
-                    <a href="{{ url_for('connected.dashboard') }}" class="btn btn-danger material-symbols-outlined">delete</a>{% endif %}
+                    <a href="{{ url_for('connected.admin.del_event', event_id=element.event_id) }}" class="btn btn-danger material-symbols-outlined">delete</a>{% endif %}
                 <a href="{{ url_for('connected.events.abs', id=element.event_id) }}"
                    class="btn btn-secondary">Absent</a>
                 <a href="{{ url_for('connected.events.sign', id=element.event_id) }}" class="btn btn-primary">Signer</a>

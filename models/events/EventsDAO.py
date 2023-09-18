@@ -85,3 +85,10 @@ def sign_many(event_id, teacher_id, students, signature):
             cursor.execute('''  INSERT INTO signatures (event_id, teacher_id, user_id, signature_svg, signature_datetime)
                                 VALUES (%s, %s, %s, %s, NOW()); ''', (event_id, teacher_id, student, signature))
         get_db().commit()
+
+
+def del_event(id):
+    with get_db().cursor() as cursor:
+        cursor.execute('''  DELETE FROM events
+                        WHERE event_id = %s; ''', id)
+        get_db().commit()

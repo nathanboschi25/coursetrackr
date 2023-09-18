@@ -14,7 +14,7 @@
 
         .header {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
         }
 
         .logo {
@@ -33,9 +33,8 @@
         }
 
         .infos_etudiant {
-            margin-top: 10px;
             background-color: #9ac3ec;
-            padding: 10px;
+            padding: 5px;
         }
 
         .infos_etudiant h2 {
@@ -76,7 +75,7 @@
         }
 
         .emargement p.semaine {
-            margin: 0 0 10px 0;
+            margin: 0;
             padding: 5px;
             font-size: 16px;
             font-weight: bold;
@@ -98,6 +97,7 @@
         }
 
         .emargement table.jours tr td.jour__header {
+            margin: 0;
             border-top: solid 5px black;
         }
 
@@ -117,11 +117,14 @@
             border: solid 3px black;
             height: 195px;
             vertical-align: top;
-            break-inside: avoid-page;
         }
 
         .emargement td.jour table td p {
             margin: 0;
+        }
+
+        .jour table{
+            page-break-after: always;
         }
 
         .coupe {
@@ -132,7 +135,6 @@
 
         .emargement div.details_cours {
             background-color: #9ac3ec;
-            padding: 5px;
             margin-bottom: 5px;
         }
 
@@ -145,11 +147,6 @@
             font-size: 13px;
         }
 
-        footer {
-        {#position: fixed;#}{#bottom: 0;#} width: 100%;
-            text-align: center;
-            font-family: monospace;
-        }
     </style>
 </head>
 <body>
@@ -165,6 +162,7 @@
             <td class="page-title">
                 <h1>Fiche d'émargement</h1>
                 <span class="subtitle">BUT INFORMATIQUE - Année Universitaire {{ donnees.annee_universitaire }}</span>
+                <pre>Fiche d'émargement générée le {{ donnees.now.date }}, à {{ donnees.now.heure }}</pre>
             </td>
         </tr>
     </table>
@@ -183,50 +181,50 @@
     <div class="emargement">
         <p class="semaine">Semaine du {{ donnees.semaine.start }} au {{ donnees.semaine.end }}</p>
         <table class="jours">
-            <thead>
-            {% for jour in donnees.semaine.jours %}
-                <td class="jour jour__header">
-                    <p>{{ jour.jour }}<br><b>{{ jour.date }}</b></p>
-                </td>
-            {% endfor %}
-            </thead>
-            <tbody>
-            {% for jour in donnees.semaine.jours %}
-                {% if len(jour.cours) > 0 %}
-                    <td class="jour">
-                        <table>
-                            {% for cours in jour.cours %}
-                                <tr>
-                                    <td>
-                                        <div class="details_cours">
-                                            <div class="details_cours__encadre">
-                                                <p><b>{{ cours.start }} - {{ cours.end }}</b></p>
-                                                <p class="coupe">{{ cours.title }}</p>
-                                            </div>
-                                            <p class="coupe">{{ cours.teacher }}</p>
-                                        </div>
-                                        <div class="signature">
-                                            {% if cours.signature_svg != None %}
-                                                <img src="{{ cours.signature_svg }}" height="70px">
-                                                <p>{{ cours.signature_name }},</p>
-                                                <p>le {{ cours.signature_date }}</p>
-                                            {% endif %}
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
+            <tr>
+                {% for jour in donnees.semaine.jours %}
+                    <td class="jour jour__header">
+                        <p>{{ jour.jour }}<br><b>{{ jour.date }}</b></p>
                     </td>
-                {% endif %}
-            {% endfor %}
-            </tbody>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for jour in donnees.semaine.jours %}
+                    {% if len(jour.cours) > 0 %}
+                        <td class="jour">
+                            <table>
+                                {% for cours in jour.cours %}
+                                    <tr>
+                                        <td class="cours">
+                                            <div class="details_cours">
+                                                <div class="details_cours__encadre">
+                                                    <p><b>{{ cours.start }} - {{ cours.end }}</b></p>
+                                                    <p class="coupe">{{ cours.title }}</p>
+                                                </div>
+                                                <p class="coupe">{{ cours.teacher }}</p>
+                                            </div>
+                                            <div class="signature">
+                                                {% if cours.signature_svg != None %}
+                                                    {% if cours.signature_svg != "ABSENT" %}
+                                                        <img src="{{ cours.signature_svg }}" height="70px">
+                                                        <p>{{ cours.signature_name }},</p>
+                                                    {% else %}
+                                                        <p><b>Absent</b></p>
+                                                    {% endif %}
+                                                    <p>le {{ cours.signature_date }}</p>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
         </table>
     </div>
 </header>
-
-<footer>
-    <p>Fiche d'émargement générée le {{ donnees.now.date }}, à {{ donnees.now.heure }}</p>
-</footer>
 
 </body>
 </html>
