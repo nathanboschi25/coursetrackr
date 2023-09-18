@@ -44,7 +44,7 @@ def get_jours(list_id, semaine_start, semaine_end, user_id):
                             SELECT DISTINCT
                                 DATE(start_datetime) AS date
                             FROM signature_list sl
-                            JOIN events ev ON sl.list_id = ev.list_id
+                            JOIN events ev ON sl.list_id = ev.list_id AND (ev.hidden = FALSE OR ev.hidden IS NULL)
                             WHERE
                                 sl.list_id = %s AND
                                 ev.start_datetime >= %s AND
